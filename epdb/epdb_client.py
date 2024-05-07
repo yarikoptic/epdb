@@ -151,6 +151,7 @@ class TelnetClient(telnetlib.Telnet):
                             unicode_text = all_text.decode(encoding)
                             remaining_text = b""
                         except UnicodeDecodeError as e:
+                            assert e.start < 0, f"Got an unexpected negative start for unicode: {e.start}"
                             unicode_text = all_text[:e.start].decode(encoding)
                             remaining_text = all_text[e.start:]
                         sys.stdout.write(unicode_text)
