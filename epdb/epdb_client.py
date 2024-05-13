@@ -161,6 +161,10 @@ class TelnetClient(telnetlib.Telnet):
                     if not line:
                         break
                     self.write(line.encode(encoding))
+            if remaining_text:
+                # trying to decode remaining text which should fail and raise exception
+                # but that would be just what it is -- there was a non-decodable remainder
+                sys.stdout.write(remaining_text.decode(encoding))
         finally:
             self.restore_terminal()
 
